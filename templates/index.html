@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/favicon.gif" type="image/gif" >
+
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+
+    <title>Cattle Recognition</title>
+</head>
+
+<body>
+    <div  style="display: flex;">
+        <div style="display: flex">
+            <div style="width: 30%; height: 100%;" class="split">
+                <center>
+                    <h1>Register</h1>
+                    <form class="row g-3" method="post" enctype="multipart/form-data" action="/addcow">
+                        <div class="col-md-6">
+                            <label for="inputEmail4" class="form-label">Owner name</label>
+                            <input type="text" class="form-control" name="name" id="inputEmail4">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputPassword4" class="form-label">Owner phno</label>
+                            <input type="number" name="phno" class="form-control" id="inputPassword4">
+                        </div>
+                        <div class="col-12">
+                            <label for="inputAddress" class="form-label">Address</label>
+                            <input type="text" name="add" class="form-control" id="inputAddress"
+                                placeholder="1234 Main St">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputCity" class="form-label">City</label>
+                            <input type="text" name="city" class="form-control" id="inputCity">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="inputState" class="form-label">State</label>
+                            <input type="text" name="state" class="form-control" id="inputCity">
+                        </div>
+                        <div class="col-md-2">
+                            <label for="inputZip" class="form-label">Zip</label>
+                            <input type="number" name="zip" class="form-control" id="inputZip">
+                        </div>
+                        <div class="input-group mb-3">
+                            <input type="file" name="image" accept=".jpg, .jpeg, .png" class="form-control"
+                                id="inputGroupFile02">
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </center>
+
+            </div>
+
+
+            <div style="width: 70%; height: 100%;background-color: #58bcff;" class="split">
+                <center>
+                    <h1>Identify</h1>
+                    <form method="POST" enctype="multipart/form-data" action="/identify">
+                        <div class="input-group mb-3">
+                            <input type="file" name="image" accept=".jpg, .jpeg, .png" class="form-control"
+                                id="inputGroupFile02">
+                            <button class="input-group-text" type="submit" for="inputGroupFile02">Upload</button>
+                        </div>
+                    </form>
+
+                    <div class="card">
+                        {% if exists == "True"%}
+                        <div class="header">
+                            <h3>Identified Cow</h3>
+                        </div>
+                        <ol>
+                            <p>Owner name:</p>
+                            <li>{{ cow_data['owner_name'] }}</li>
+                        </ol>
+                        <ol>
+                            <p>Cow ID:</p>
+                            <li>{{ cow_data['cid'] }}</li>
+                        </ol>
+                        <ol>
+                            <p>Owner phone:</p>
+                            <li>{{ cow_data['owner_phno'] }}</li>
+                        </ol>
+                        <ol>
+                            <p>Owner address:</p>
+                            <li>{{ cow_data['owner_address'] }}</li>
+                        </ol>
+                        <ol>
+                            <p>Identified Cow:</p>
+                            <img class="my_img" src="data:image/jpeg;charset=utf-8;base64,{{ cow_data['cow_image'] }}" alt="Identified Cow"/>
+                        </ol>
+
+                        {% elif exists == "None" %}
+                        <h3>Please provide cow image</h3>
+
+                
+                        {% else %}
+                
+                        <h3>Couldn't identify this cow</h3>
+                        <h4>Please register this cow</h4>                
+                        {% endif %}
+                        <style>
+                            .card {
+                                background-color: #fff;
+                                border-radius: 10px;
+                                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                                padding: 20px;
+                                text-align: center;
+
+                            }
+                    
+                            .header {
+                                background-color: #3498db;
+                                color: #fff;
+                                padding: 10px;
+                                border-radius: 5px;
+                            }
+                    
+                            ol {
+                                list-style: none;
+                                padding: 0;
+                                margin: 10px 0;
+                            }
+                    
+                            p {
+                                font-weight: bold;
+                                margin: 5px 0;
+                            }
+                    
+                            li {
+                                margin: 5px 0;
+                            }
+                    
+                            .my_img {
+                                width: 1.6in;
+                                height: 1.6in;
+                                border-radius: 5px;
+                                margin-top: 10px;
+                            }
+                        </style>
+                        
+                       
+                    </div>
+                </center>
+            </div>
+
+        </div>
+
+</body>
+<style>
+    #mainbody{
+        height: 100%;
+    }
+    .split { 
+        margin: 70px;
+    }
+
+    body {
+        background-color: #f8f9fa;
+        height: 100%;
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    .split {
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        margin: 10px;
+        padding: 20px;
+    }
+
+    img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+    
+
+    h1,
+    h2,
+    h3 {
+        color: #21354b;
+    }
+
+    form {
+        margin-top: 20px;
+    }
+</style>
+
+</html>
